@@ -1,0 +1,69 @@
+
+Poroanimated.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Poro_final_0008_Pie-der
+  rotate: false
+  xy: 612, 164
+  size: 108, 94
+  orig: 108, 94
+  offset: 0, 0
+  index: -1
+Poro_final_0007_Pie-iz
+  rotate: false
+  xy: 612, 1
+  size: 197, 161
+  orig: 197, 161
+  offset: 0, 0
+  index: -1
+Poro_final_0006_mano-der
+  rotate: false
+  xy: 722, 164
+  size: 74, 95
+  orig: 74, 95
+  offset: 0, 0
+  index: -1
+Poro_final_0005_Oreja-der
+  rotate: false
+  xy: 701, 261
+  size: 69, 53
+  orig: 69, 53
+  offset: 0, 0
+  index: -1
+Poro_final_0004_Oreja-iz
+  rotate: false
+  xy: 612, 260
+  size: 87, 52
+  orig: 87, 52
+  offset: 0, 0
+  index: -1
+Poro_final_0003_Cuerpo
+  rotate: false
+  xy: 1, 1
+  size: 609, 605
+  orig: 609, 605
+  offset: 0, 0
+  index: -1
+Poro_final_0002_Mano-izq
+  rotate: false
+  xy: 811, 141
+  size: 160, 147
+  orig: 160, 147
+  offset: 0, 0
+  index: -1
+Poro_final_0001_Hocico
+  rotate: false
+  xy: 811, 1
+  size: 200, 138
+  orig: 200, 138
+  offset: 0, 0
+  index: -1
+Poro_final_0000_Nariz
+  rotate: false
+  xy: 612, 314
+  size: 57, 37
+  orig: 57, 37
+  offset: 0, 0
+  index: -1

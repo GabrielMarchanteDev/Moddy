@@ -1,0 +1,10 @@
+{
+  "modid": "mymod",
+  "name": "M.E.M.O",
+  "author": "Baymax",
+  "description": "Memoria Eterea del Mundo Onírico.",
+  "version": "1.0",
+  "dependencies": [
+    "basemod"
+  ]
+}

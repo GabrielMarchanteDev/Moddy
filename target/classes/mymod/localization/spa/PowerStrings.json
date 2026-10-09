@@ -1,0 +1,32 @@
+{
+  "mymod:SuertePasiva": {
+    "NAME": "Suerte Pasiva",
+    "DESCRIPTIONS": [
+      "Este poder otorga efectos positivos al comienzo del turno según tu nivel de Suerte."
+    ]
+  },
+  "mymod:PalomitasTracker": {
+    "NAME": "Pop Pop Pop! =)",
+    "DESCRIPTIONS": [
+      "Cada turno tienes una probabilidad de generar palomitas especiales."
+    ]
+  },
+  "AhoraVengoThisTurn": {
+    "NAME": "Un momento!",
+    "DESCRIPTIONS": [
+      "Buscando la carta perfecta"
+    ]
+  },
+ "AhoraVengoReturnNextTurn": {
+    "NAME": "He vuelto",
+    "DESCRIPTIONS": [
+      "Buscando la carta perfecta"
+    ]
+  },
+ "mymod:ReflejoMitigadoPower": {
+    "NAME": "Reflejo Mitigado",
+    "DESCRIPTIONS": [
+      "El 50% del daño absorbido por el Bloqueo este turno se devuelve a un enemigo aleatorio."
+    ]
+  }
+}

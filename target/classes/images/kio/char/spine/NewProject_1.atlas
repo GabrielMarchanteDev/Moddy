@@ -1,0 +1,83 @@
+
+NewProject_1.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Kio2_0009_Pata-4
+  rotate: false
+  xy: 336, 305
+  size: 168, 100
+  orig: 168, 100
+  offset: 0, 0
+  index: -1
+Kio2_0010_Pata3
+  rotate: false
+  xy: 232, 299
+  size: 102, 203
+  orig: 102, 203
+  offset: 0, 0
+  index: -1
+Kio2_0008_Lazo
+  rotate: false
+  xy: 752, 305
+  size: 46, 111
+  orig: 46, 111
+  offset: 0, 0
+  index: -1
+Kio2_0007_Cola
+  rotate: false
+  xy: 336, 407
+  size: 130, 88
+  orig: 130, 88
+  offset: 0, 0
+  index: -1
+Kio2_0006_Lazo2
+  rotate: false
+  xy: 648, 407
+  size: 102, 68
+  orig: 102, 68
+  offset: 0, 0
+  index: -1
+Kio2_0005_Cuerpo
+  rotate: false
+  xy: 1, 1
+  size: 246, 244
+  orig: 246, 244
+  offset: 0, 0
+  index: -1
+Kio2_0003_Pata2
+  rotate: false
+  xy: 382, 1
+  size: 124, 302
+  orig: 124, 302
+  offset: 0, 0
+  index: -1
+Kio2_0004_Pata-1
+  rotate: false
+  xy: 249, 1
+  size: 131, 296
+  orig: 131, 296
+  offset: 0, 0
+  index: -1
+Kio2_0002_Oreja-1
+  rotate: false
+  xy: 468, 407
+  size: 82, 86
+  orig: 82, 86
+  offset: 0, 0
+  index: -1
+Kio2_0001_Cabeza
+  rotate: false
+  xy: 1, 247
+  size: 229, 200
+  orig: 229, 200
+  offset: 0, 0
+  index: -1
+Kio2_0000_Oreja-2
+  rotate: false
+  xy: 552, 407
+  size: 94, 74
+  orig: 94, 74
+  offset: 0, 0
+  index: -1

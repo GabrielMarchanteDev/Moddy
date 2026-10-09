@@ -1,0 +1,26 @@
+{
+ "MyFirstEvent": {
+    "NAME": "El Despertar de Kio",
+    "DESCRIPTIONS": [
+      "Sientes una energía antigua proveniente de una figura olvidada.",
+      "Kio aparece con furia, sus ojos brillan con determinación.",
+      "Decides no perturbar su descanso."
+    ],
+    "OPTIONS": [
+      "[Combatir] Enfrenta a Kio.",
+      "[Marcharse] Dejarlo estar.",
+      "[Continuar]"
+    ]
+  },
+
+  "BaymaxCheckEvent": {
+    "NAME": "Recuerdo Latente",
+    "DESCRIPTIONS": [
+      "Un susurro digital atraviesa tu mente. Algo... o alguien... te recuerda quién fuiste."
+    ],
+    "OPTIONS": [
+      "[Continuar]"
+    ]
+  }
+}
+

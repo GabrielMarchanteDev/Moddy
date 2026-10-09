@@ -1,0 +1,120 @@
+{
+  "mymod:Peppazo": {
+    "NAME": "Peppazo",
+    "DESCRIPTION": "Haz !D! de daño y te cagas en Dios."
+  },
+ "PalomitaMayor": {
+    "NAME": "Big Pop!",
+    "DESCRIPTION": "Haz !D! de daño."
+  },
+ "PalomitaRancia": {
+    "NAME": "Ñimi ñame",
+    "DESCRIPTION":"Aplica !M! débil a un enemigo."
+  },
+ "PalomitaHueca": {
+    "NAME": "Ñomo ñime",
+    "DESCRIPTION": "Aleatorio entre: +1 energía, +1 carta"
+  },
+"PalomitaDulce": {
+    "NAME": "Ñomo ñumo",
+    "DESCRIPTION": "Obten !M! energía"
+  },
+"PalomitaEnergetica": {
+  "NAME": "Palomita Energética",
+  "DESCRIPTION": "Ganas !M! de Fuerza solo durante este turno."
+},
+"PalomitaExplosiva": {
+  "NAME": "Palomita Explosiva",
+  "DESCRIPTION": "Haz !D! de daño a todos los enemigos !M! veces."
+},
+"PalomitaMayorRancia": {
+  "NAME": "Palomita Super Rancia",
+  "DESCRIPTION": "Aplica !M! de Débil a todos los enemigos."
+},
+"PalomitaMayorDulce": {
+  "NAME": "Palomita Super Dulce",
+  "DESCRIPTION": "Ganas !M! de energía al comienzo de tu próximo turno."
+},
+"PalomitaMayorExplosiva": {
+  "NAME": "Palomita Super Explosiva",
+  "DESCRIPTION": "Haz !D! de daño a todos los enemigos 3 veces."
+},
+"PalomitaMayorEnergetica": {
+  "NAME": "Palomita Super Energética",
+  "DESCRIPTION": "Ganas !M! de Fuerza solo durante este turno."
+},
+"ComerPalomitas": {
+  "NAME": "Comérselas",
+  "DESCRIPTION": "Consume todas las cartas Palomita de tu mano. Ganas !M! de Bloqueo por cada una."
+},
+"RacionDoble": {
+  "NAME": "Ración Doble",
+  "DESCRIPTION": "Elige una carta Palomita entre 3 dos veces."
+},
+
+  "EchoFromOthers": {
+    "NAME": "Un Vistacillo",
+    "DESCRIPTION": "Elige 1 carta entre 4: una de cada héroe original. Cuesta 0 este turno."
+  },
+
+  "KioDefend": {
+    "NAME": "Defender",
+    "DESCRIPTION": "Gana !B! de Bloqueo.",
+    "UPGRADE_DESCRIPTION": "Gana !B! de Bloqueo."
+  },
+  "KioAttack": {
+    "NAME": "Atacar",
+    "DESCRIPTION": "Haz !D! de daño.",
+    "UPGRADE_DESCRIPTION": "Haz !D! de daño."
+  },
+"KioAttack2": {
+    "NAME": "Atacar",
+    "DESCRIPTION": "Haz !D! de daño.",
+    "UPGRADE_DESCRIPTION": "Haz !D! de daño."
+  },
+"KioAttack3": {
+    "NAME": "Atacar",
+    "DESCRIPTION": "Haz !D! de daño.",
+    "UPGRADE_DESCRIPTION": "Haz !D! de daño."
+  },
+"KioAttack4": {
+    "NAME": "Atacar",
+    "DESCRIPTION": "Haz !D! de daño.",
+    "UPGRADE_DESCRIPTION": "Haz !D! de daño."
+  },
+"PoroAttack": {
+    "NAME": "Atacar",
+    "DESCRIPTION": "Haz !D! de daño.",
+    "UPGRADE_DESCRIPTION": "Haz !D! de daño."
+  },
+  "PoroDefend": {
+    "NAME": "Defender",
+    "DESCRIPTION": "Gana !B! de Bloqueo.",
+    "UPGRADE_DESCRIPTION": "Gana !B! de Bloqueo."
+  },
+"AhoraVengo": {
+    "NAME": "Ahora vengo!",
+    "DESCRIPTION": "Escondete en el mazo y elige una carta al principio del siguiente turno",
+    "UPGRADE_DESCRIPTION": "Suuuu"
+  },
+"HiloDeTiempo": {
+  "NAME": "Hilo de Tiempo",
+  "DESCRIPTION": "Gana !B! de Bloqueo. Si no juegas esta carta durante un turno, su coste se reduce en 1 (solo durante este combate).",
+  "UPGRADE_DESCRIPTION": "Gana !B! de Bloqueo. Si no juegas esta carta durante un turno, su coste se reduce en 1 (solo durante este combate)."
+},
+"Compas": {
+  "NAME": "Compás",
+  "DESCRIPTION": "Gana !B! de Bloqueo. Si la jugaste en el turno anterior, gana 10 más.",
+  "UPGRADE_DESCRIPTION": "Gana !B! de Bloqueo. Si la jugaste en el turno anterior, gana 10 más."
+},
+"Impulso": {
+  "NAME": "Impulso",
+  "DESCRIPTION": "Gana !B! de Bloqueo. Si la jugaste en el turno anterior, gana 10 más.",
+  "UPGRADE_DESCRIPTION": "Gana !B! de Bloqueo. Si la jugaste en el turno anterior, gana 10 más."
+},
+"Armonia": {
+  "NAME": "Armonia",
+  "DESCRIPTION":  "Inflige !D! de daño. Gana !B! de Bloque.",
+  "UPGRADE_DESCRIPTION":  "Inflige !D! de daño. Gana !B! de Bloque."
+}
+}

@@ -1,0 +1,18 @@
+{
+  "mymod:Kiobag": {
+    "NAME": "Bolsa de Kio",
+    "FLAVOR": "Contiene luz, recuerdos y algún que otro mordisco.",
+    "DESCRIPTIONS": [
+      "Al inicio de cada combate, gana ",
+      " de Fuerza."
+    ]
+  },
+"PalomiteroDeKio": {
+    "NAME": "Palomitero Pop-Pop Poom",
+    "FLAVOR": "Huele bien rico",
+    "DESCRIPTIONS": [
+       "Al comienzo de cada turno añade 2 palomitas aleatorias a tu mano."
+ 	    ]
+  }
+
+}

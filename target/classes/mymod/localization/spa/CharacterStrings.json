@@ -1,0 +1,14 @@
+{
+  "mymod:Kio": {
+    "NAMES": ["Kio, El Primer Guardián"],
+    "TEXT": ["Un guardián ancestral lleno de luz."]
+  },
+"Poro": {
+    "NAMES": ["Poro, El Alma Del Bosque"],
+    "TEXT": ["El Corazón del Santuario."]
+  },
+"Baymax": {
+    "NAMES": ["Baymax, El Guardían Moderno"],
+    "TEXT": ["Robot creado por Tadashi Hamada, cuyas funciones fueron mas allá de sanar."]
+  }
+}
