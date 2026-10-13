@@ -4,8 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.MonsterHelper;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.map.DungeonMap;
+import com.megacrit.cardcrawl.cards.AbstractCard.CardRarity;
 import com.megacrit.cardcrawl.map.MapEdge;
 import com.megacrit.cardcrawl.map.MapRoomNode;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
@@ -20,11 +26,28 @@ import com.megacrit.cardcrawl.rooms.TreasureRoom;
 import mymod.events.MapTestEvent;
 
 public final class KioMapBuilder {
+    private static boolean finalBossOutside;
     private KioMapBuilder() { }
+
+    public static boolean isFinalBossOutside() { return finalBossOutside; }
 
     public static ArrayList<ArrayList<MapRoomNode>> build(KioMapConfig config) {
         config.validate();
-        int bossRow = config.lastRow() + 1;
+        finalBossOutside = config.bossLayoutVersion >= 2;
+        boolean explicitBoss = config.hasExplicitFinalBoss();
+        Map<Integer, Integer> visualRows = new HashMap<>();
+        int padding = 0;
+        for (int row = 0; row <= config.lastRow(); row++) {
+            for (KioMapConfig.Node node : config.nodes) {
+                if (node.row == row && "boss".equals(node.type)) {
+                    // Iconos de 512 px: cuatro espacios de 150 px entre jefes.
+                    if (row > 0 && config.bossLayoutVersion >= 1) padding += 3;
+                    break;
+                }
+            }
+            visualRows.put(row, row + padding);
+        }
+        int bossRow = visualRows.get(config.lastRow()) + (explicitBoss ? 0 : 1);
         ArrayList<ArrayList<MapRoomNode>> result = new ArrayList<>();
         for (int y = 0; y <= bossRow; y++) {
             ArrayList<MapRoomNode> row = new ArrayList<>();
@@ -38,19 +61,56 @@ public final class KioMapBuilder {
         }
         Map<String, MapRoomNode> byId = new HashMap<>();
         for (KioMapConfig.Node definition : config.nodes) {
-            MapRoomNode node = result.get(definition.row).get(definition.column);
-            node.setRoom(createRoom(definition));
+            int visualRow = visualRows.get(definition.row);
+            boolean finalBoss = "boss".equals(definition.type) && definition.row == config.lastRow();
+            MapRoomNode node = result.get(visualRow).get(definition.column);
+            if ("boss".equals(definition.type) && !finalBoss && config.bossLayoutVersion >= 1) {
+                node = new ContinuingBossNode(definition.column, visualRow);
+                result.get(visualRow).set(definition.column, node);
+            }
+            node.setRoom(finalBoss
+                    ? new MonsterRoomBoss() : createRoom(definition));
             byId.put(definition.id, node);
         }
         // ActLikeIt's boss button detects a centered boss room in the next row.
         MapRoomNode boss = result.get(bossRow).get(3);
-        boss.setRoom(new MonsterRoomBoss());
+        if (!explicitBoss) boss.setRoom(new MonsterRoomBoss());
         for (KioMapConfig.Node definition : config.nodes) {
             MapRoomNode source = byId.get(definition.id);
             for (String target : definition.next) connect(source, byId.get(target));
-            if (definition.row == config.lastRow()) connect(source, boss);
+            if (!explicitBoss && definition.row == config.lastRow()) connect(source, boss);
         }
         return result;
+    }
+
+    // Apariencia del jefe final con seleccion y conexiones de un nodo normal.
+    private static class ContinuingBossNode extends MapRoomNode {
+        ContinuingBossNode(int x, int y) {
+            super(x, y);
+            offsetX = 0;
+            offsetY = 0;
+            hb.resize(iconSize(), iconSize());
+        }
+        private float iconSize() {
+            return (Settings.isMobile ? 560F : 512F) * Settings.scale;
+        }
+        @Override public void render(SpriteBatch sb) {
+            if (DungeonMap.boss == null || DungeonMap.bossOutline == null) {
+                super.render(sb);
+                return;
+            }
+            for (MapEdge edge : getEdges()) edge.render(sb);
+            float size = iconSize();
+            float left = hb.cX - size / 2F;
+            float bottom = hb.cY - size / 2F;
+            Color previous = new Color(sb.getColor());
+            sb.setColor(1F, 1F, 1F, color.a);
+            sb.draw(DungeonMap.bossOutline, left, bottom, size, size);
+            sb.setColor(taken ? AVAILABLE_COLOR : color);
+            sb.draw(DungeonMap.boss, left, bottom, size, size);
+            hb.render(sb);
+            sb.setColor(previous);
+        }
     }
 
     private static void connect(MapRoomNode from, MapRoomNode to) {
@@ -63,12 +123,24 @@ public final class KioMapBuilder {
         switch (node.type) {
             case "combat": return new FixedCombatRoom(node.encounter);
             case "elite": return new FixedEliteRoom(node.encounter);
+            case "boss": return new ContinuingBossRoom(node.encounter);
             case "event": return new FixedEventRoom();
             case "shop": return new ShopRoom();
             case "rest": return new RestRoom();
             case "treasure": return new TreasureRoom();
             default: throw new IllegalArgumentException(node.type);
         }
+    }
+
+    // No hereda de MonsterRoomBoss: esa clase activa la salida de fin de acto.
+    private static class ContinuingBossRoom extends FixedCombatRoom {
+        ContinuingBossRoom(String encounter) {
+            super(encounter);
+            mapSymbol = "B";
+            mapImg = ImageMaster.MAP_NODE_ELITE;
+            mapImgOutline = ImageMaster.MAP_NODE_ELITE_OUTLINE;
+        }
+        @Override public CardRarity getCardRarity(int roll) { return CardRarity.RARE; }
     }
 
     private static class FixedCombatRoom extends MonsterRoom {

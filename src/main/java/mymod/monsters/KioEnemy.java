@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.esotericsoftware.spine.AnimationState;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
-import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 
 import basemod.abstracts.CustomMonster;
@@ -38,7 +37,7 @@ public class KioEnemy extends CustomMonster {
     }
     
     public KioEnemy() {
-    	 super(NAME, ID, HP, 0.0F, -10.0F, 220.0F, 250.0F, null,0F,0F);
+        this(0F, 0F);
     }
 
     @Override
@@ -51,14 +50,5 @@ public class KioEnemy extends CustomMonster {
         setMove(ATTACK, Intent.ATTACK, damage.get(0).base);
     }
     
-    @Override
-    public void die() {
-        super.die();
-        // Finaliza la partida aquí
-        AbstractDungeon.overlayMenu.endTurnButton.disable();
-        AbstractDungeon.dungeonMapScreen.dismissable = false;
-        AbstractDungeon.player.isDead = false;
-        AbstractDungeon.isDungeonBeaten = true;
-        CardCrawlGame.startOver();
-    }
+    // La sala gestiona las recompensas y la salida; morir no reinicia la partida.
 }

@@ -28,10 +28,14 @@ import mymod.characters.MyPlayerKioClassEnum;
 public class KioMapConfig {
     private static final Gson GSON = new Gson();
     private static final String RESOURCE = "/mymod/maps/kio-map.json";
+    // ID de registro, sin inicializar clases de monstruos durante la validacion.
+    private static final String BOSS_ENCOUNTER = "mymod:KioEnemy";
     private static boolean loadingSave;
     private static boolean kioRun;
 
     public boolean enabled = true;
+    // Los snapshots antiguos conservan sus coordenadas al continuar la partida.
+    public int bossLayoutVersion;
     public List<Node> nodes = new ArrayList<>();
 
     public static class Node {
@@ -88,6 +92,7 @@ public class KioMapConfig {
             try (Reader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
                 KioMapConfig config = GSON.fromJson(reader, KioMapConfig.class);
                 config.validate();
+                config.bossLayoutVersion = 2;
                 MyMod.logger.info("[Mapa Kio] Archivo externo: " + path.toAbsolutePath());
                 return config;
             } catch (Exception e) {
@@ -99,6 +104,7 @@ public class KioMapConfig {
             try (Reader reader = new InputStreamReader(input, StandardCharsets.UTF_8)) {
                 KioMapConfig config = GSON.fromJson(reader, KioMapConfig.class);
                 config.validate();
+                config.bossLayoutVersion = 2;
                 MyMod.logger.info("[Mapa Kio] Usando ejemplo incluido en el JAR.");
                 return config;
             }
@@ -118,6 +124,13 @@ public class KioMapConfig {
         return last;
     }
 
+    public boolean hasExplicitFinalBoss() {
+        for (Node node : nodes) {
+            if (node.row == lastRow() && "boss".equals(node.type)) return true;
+        }
+        return false;
+    }
+
     public void validate() {
         if (!enabled) return;
         if (nodes == null || nodes.isEmpty()) throw new IllegalArgumentException("Faltan nodos");
@@ -134,8 +147,12 @@ public class KioMapConfig {
             }
             if (!"combat".equals(node.type) && !"elite".equals(node.type)
                     && !"event".equals(node.type) && !"shop".equals(node.type)
-                    && !"rest".equals(node.type) && !"treasure".equals(node.type)) {
+                    && !"rest".equals(node.type) && !"treasure".equals(node.type)
+                    && !"boss".equals(node.type)) {
                 throw new IllegalArgumentException("Tipo desconocido: " + node.type);
+            }
+            if ("boss".equals(node.type) && !BOSS_ENCOUNTER.equals(node.encounter)) {
+                throw new IllegalArgumentException("Jefe permitido: " + BOSS_ENCOUNTER);
             }
             // This first example offers two known vanilla encounters, no arbitrary factory names.
             if ("combat".equals(node.type) || "elite".equals(node.type)) {
@@ -155,8 +172,12 @@ public class KioMapConfig {
                 if (row == 0) reached.add(node.id);
                 if (!reached.contains(node.id)) throw new IllegalArgumentException("Nodo inaccesible: " + node.id);
                 if (row == last) {
-                    if (!"rest".equals(node.type) || !node.next.isEmpty()) {
-                        throw new IllegalArgumentException("La ultima fila debe ser descanso sin conexiones");
+                    if ((!"rest".equals(node.type) && !"boss".equals(node.type)) || !node.next.isEmpty()) {
+                        throw new IllegalArgumentException("La ultima fila debe ser descanso o jefe sin conexiones");
+                    }
+                    if (hasExplicitFinalBoss() && (nodes.stream().filter(n -> n.row == last).count() != 1
+                            || node.column != 3)) {
+                        throw new IllegalArgumentException("El jefe final debe estar solo y centrado");
                     }
                 } else if (node.next.isEmpty()) {
                     throw new IllegalArgumentException("Ruta sin salida: " + node.id);

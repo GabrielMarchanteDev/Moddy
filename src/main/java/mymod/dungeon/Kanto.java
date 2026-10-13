@@ -63,7 +63,8 @@ public class Kanto extends AbstractPokemonRegionDungeon {
         map = KioMapBuilder.build(config);
         firstRoomChosen = false;
         fadeIn();
-        logger.info("[Mapa Kio] Mapa fijo generado: " + config.nodes.size() + " nodos y jefe.");
+        logger.info("[Mapa Kio] Mapa fijo generado: " + config.nodes.size()
+                + " nodos" + (config.hasExplicitFinalBoss() ? " con jefe final." : " y jefe automatico."));
     }
 
     protected void initializeLevelSpecificChances() {

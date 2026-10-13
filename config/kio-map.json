@@ -5,6 +5,9 @@
     {"id": "evento", "row": 1, "column": 2, "type": "event", "next": ["tienda"]},
     {"id": "elite", "row": 1, "column": 4, "type": "elite", "encounter": "3 Sentries", "next": ["tienda"]},
     {"id": "tienda", "row": 2, "column": 3, "type": "shop", "next": ["descanso"]},
-    {"id": "descanso", "row": 3, "column": 3, "type": "rest", "next": []}
+    {"id": "descanso", "row": 3, "column": 3, "type": "rest", "next": ["jefe1"]},
+    {"id": "jefe1", "row": 4, "column": 3, "type": "boss", "encounter": "mymod:KioEnemy", "next": ["jefe2"]},
+    {"id": "jefe2", "row": 5, "column": 3, "type": "boss", "encounter": "mymod:KioEnemy", "next": ["jefe3"]},
+    {"id": "jefe3", "row": 6, "column": 3, "type": "boss", "encounter": "mymod:KioEnemy", "next": []}
   ]
 }

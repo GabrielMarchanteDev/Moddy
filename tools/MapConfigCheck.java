@@ -11,7 +11,12 @@ public class MapConfigCheck {
     public static void main(String[] args) throws Exception {
         String json = new String(Files.readAllBytes(Paths.get("config/kio-map.json")), StandardCharsets.UTF_8);
         KioMapConfig config = KioMapConfig.parse(json);
-        require(config.nodes.size() == 5 && config.lastRow() == 3, "example topology");
+        require(config.nodes.size() == 8 && config.lastRow() == 6, "example topology");
+        require(config.hasExplicitFinalBoss(), "explicit final boss");
+        require(config.bossLayoutVersion == 0, "old snapshots retain original layout");
+        require(KioMapConfig.parse(json.replace("\"enabled\": true", "\"enabled\": true, \"bossLayoutVersion\": 1"))
+                .bossLayoutVersion == 1, "new snapshot retains boss layout version");
+        require(config.nodes.stream().filter(n -> "boss".equals(n.type)).count() == 3, "three bosses");
         require(config.nodes.get(0).next.size() == 2, "two branches");
         String bundled = new String(Files.readAllBytes(Paths.get("src/main/resources/mymod/maps/kio-map.json")), StandardCharsets.UTF_8);
         require(json.equals(bundled), "editable example matches bundled fallback");
@@ -20,7 +25,12 @@ public class MapConfigCheck {
         invalid(json.replace("\"evento\", \"elite\"", "\"evento\", \"evento\""), "duplicate edge");
         invalid(json.replace("\"evento\", \"elite\"", "\"evento\""), "unreachable elite");
         invalid(json.replace("\"next\": [\"tienda\"]", "\"next\": []"), "dead end");
-        invalid(json.replace("\"type\": \"rest\"", "\"type\": \"shop\""), "final rest required");
+        invalid(json.replace("\"id\": \"jefe3\", \"row\": 6, \"column\": 3, \"type\": \"boss\"",
+                "\"id\": \"jefe3\", \"row\": 6, \"column\": 3, \"type\": \"shop\""), "final boss or rest required");
+        invalid(json.replace("mymod:KioEnemy", "missing boss"), "unknown boss");
+        invalid(json.replace("\"row\": 6, \"column\": 3", "\"row\": 6, \"column\": 2"), "final boss centered");
+        require(!KioMapConfig.parse("{\"nodes\":[{\"id\":\"rest\",\"row\":0,\"column\":3,\"type\":\"rest\",\"next\":[]}]}")
+                .hasExplicitFinalBoss(), "legacy automatic boss retained");
         invalid(json.replace("\"type\": \"event\"", "\"type\": \"unknown\""), "unknown room");
         invalid(json.replace("\"Cultist\"", "\"missing encounter\""), "unknown encounter");
         invalid(json.replace("\"id\": \"elite\"", "\"id\": \"evento\""), "duplicate ID");
