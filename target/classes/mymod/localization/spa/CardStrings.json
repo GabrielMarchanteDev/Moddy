@@ -116,5 +116,15 @@
   "NAME": "Armonia",
   "DESCRIPTION":  "Inflige !D! de daño. Gana !B! de Bloque.",
   "UPGRADE_DESCRIPTION":  "Inflige !D! de daño. Gana !B! de Bloque."
-}
+},
+  "mymod:CobijoLunar": {
+    "NAME": "Cobijo lunar",
+    "DESCRIPTION": "Gana !B! de Bloqueo. NL En Luna Llena, gana !M! de Bloqueo adicional y roba 1 carta.",
+    "EXTENDED_DESCRIPTION": ["Cobijo de luna llena", "Gana !B! de Bloqueo. NL Roba 1 carta."]
+  },
+  "mymod:GiroLunar": {
+    "NAME": "Giro lunar",
+    "DESCRIPTION": "Avanza una fase lunar.",
+    "UPGRADE_DESCRIPTION": "Innato. NL Avanza una fase lunar."
+  }
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.esotericsoftware.spine.AnimationState;
 import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
@@ -29,10 +30,36 @@ import mymod.cards.poro.PoroAttack;
 import mymod.cards.poro.PoroCardColor;
 import mymod.cards.poro.PoroDefend;
 import mymod.relics.Kiobag;
+import mymod.characters.ui.LunarPhase;
+import mymod.characters.ui.PoroMoon;
 
 public class Poro extends CustomPlayer {
 
 	public static final String ID = "Poro";
+    private final PoroMoon moon = new PoroMoon();
+
+    public LunarPhase getLunarPhase() { return moon.getPhase(); }
+    public void advanceLunarPhase() { moon.advance(); }
+
+    @Override public void preBattlePrep() {
+        moon.reset();
+        super.preBattlePrep();
+    }
+
+    @Override public void applyStartOfTurnRelics() {
+        advanceLunarPhase();
+        super.applyStartOfTurnRelics();
+    }
+
+    @Override public void update() {
+        super.update();
+        moon.update(this);
+    }
+
+    @Override public void render(SpriteBatch sb) {
+        super.render(sb);
+        moon.render(sb, this);
+    }
 
 	private static final String SHOULDER1 = "images/kio/char/shoulder1.png";
 	private static final String SHOULDER2 = "images/kio/char/shoulder2.png";
@@ -55,7 +82,7 @@ public class Poro extends CustomPlayer {
 	private static final int MAX_HP = 80;
 	private static final int STARTING_GOLD = 0;
 	private static final int HAND_SIZE = 5;
-	private static final int ORB_SLOTS = 2;
+	private static final int ORB_SLOTS = 0;
 	private static final float VISUAL_OFFSET_Y = 50f * Settings.scale;
 	
     public Poro(String name) {

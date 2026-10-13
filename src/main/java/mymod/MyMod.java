@@ -63,6 +63,8 @@ import mymod.cards.poro.Impulso;
 import mymod.cards.poro.PoroAttack;
 import mymod.cards.poro.PoroCardColor;
 import mymod.cards.poro.PoroDefend;
+import mymod.cards.poro.CobijoLunar;
+import mymod.cards.poro.GiroLunar;
 import mymod.characters.Baymax;
 import mymod.characters.Kio;
 import mymod.characters.MyPlayerBaymaxClassEnum;
@@ -284,6 +286,12 @@ public class MyMod implements EditCharactersSubscriber, EditCardsSubscriber, Edi
 		UnlockTracker.markCardAsSeen(PoroDefend.ID);
 
 		BaseMod.addCard(new PoroAttack());
+        BaseMod.addCard(new CobijoLunar());
+        UnlockTracker.unlockCard(CobijoLunar.ID);
+        UnlockTracker.markCardAsSeen(CobijoLunar.ID);
+        BaseMod.addCard(new GiroLunar());
+        UnlockTracker.unlockCard(GiroLunar.ID);
+        UnlockTracker.markCardAsSeen(GiroLunar.ID);
 		UnlockTracker.unlockCard(PoroAttack.ID);
 		UnlockTracker.markCardAsSeen(PoroAttack.ID);
 		

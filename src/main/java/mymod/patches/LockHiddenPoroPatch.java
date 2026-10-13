@@ -32,6 +32,9 @@ import mymod.characters.MyPlayerPoroClassEnum;
 //PARCHEA QUE NO APAREZCAN HASTA PREVIO AVISO
 public class LockHiddenPoroPatch {
 
+    // TEMPORAL: acceso para pruebas solicitado por el usuario. Revertir a false cuando lo pida.
+    public static final boolean PORO_TEST_ACCESS = true;
+
 	public static boolean evilMode = false;
 	public static final Logger logger = LogManager.getLogger(MyMod.class.getName());
 	private static int maxEvilSelectIndex = 0;
@@ -72,7 +75,11 @@ public class LockHiddenPoroPatch {
 					} else if (o.c.chosenClass == MyPlayerPoroClassEnum.PORO_CLASS) {
 						//bloquear el boton de poro
 					//  UnlockTracker.unlockPref.putInteger("Poro", 2);
-						if (UnlockTracker.unlockPref.getInteger("Poro", 2) == 2) {
+						if (PORO_TEST_ACCESS) {
+                            o.locked = false;
+                            ReflectionHacks.setPrivate(o, CharacterOption.class, "buttonImg",
+                                    ImageMaster.loadImage("images/poro/ui/char_button.png"));
+                        } else if (UnlockTracker.unlockPref.getInteger("Poro", 2) == 2) {
 						    // Está bloqueado → lo ocultas visualmente
 						    o.locked = true;
 						    ReflectionHacks.setPrivate(o, CharacterOption.class, "buttonImg", ImageMaster.CHAR_SELECT_LOCKED);
@@ -108,7 +115,7 @@ public class LockHiddenPoroPatch {
 		public static class PreventSelection {
 			@SpirePostfixPatch
 			public static void cancelIfLocked(CharacterOption __instance) {
-				if (__instance.c != null && __instance.c.chosenClass == MyPlayerPoroClassEnum.PORO_CLASS
+				if (!PORO_TEST_ACCESS && __instance.c != null && __instance.c.chosenClass == MyPlayerPoroClassEnum.PORO_CLASS
 						&& UnlockTracker.isCharacterLocked("Poro")) {
 					__instance.selected = false;
 				}
