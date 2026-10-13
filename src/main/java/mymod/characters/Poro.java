@@ -70,9 +70,10 @@ public class Poro extends CustomPlayer {
 	private static final String[] ORB_TEXTURES = new String[] { "images/kio/ui/topPanel/layer1.png",
 			"images/kio/ui/topPanel/layer2.png", "images/kio/ui/topPanel/layer3.png",
 			"images/kio/ui/topPanel/layer4.png", "images/kio/ui/topPanel/layer5.png",
-			"images/kio/ui/topPanel/layer6.png", "images/kio/ui/topPanel/layer1.png",
-			"images/kio/ui/topPanel/energyRedVFX.png", // orbVFXLayer1
-			"images/kio/ui/topPanel/energyPurpleVFX.png" // orbVFXLayer2
+            // CustomEnergyOrb: cuatro capas activas, base y cuatro capas sin energia.
+            // Las hojas VFX no son capas: a energia 0 se dibujaban como rectangulos.
+            "images/kio/ui/topPanel/layer1.png", "images/kio/ui/topPanel/layer2.png",
+            "images/kio/ui/topPanel/layer3.png", "images/kio/ui/topPanel/layer4.png"
 	};
 
 	private static final String ORB_VFX = "images/ui/topPanel/energyRedVFX.png";
