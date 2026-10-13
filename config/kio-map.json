@@ -1,0 +1,10 @@
+{
+  "enabled": true,
+  "nodes": [
+    {"id": "inicio", "row": 0, "column": 3, "type": "combat", "encounter": "Cultist", "next": ["evento", "elite"]},
+    {"id": "evento", "row": 1, "column": 2, "type": "event", "next": ["tienda"]},
+    {"id": "elite", "row": 1, "column": 4, "type": "elite", "encounter": "3 Sentries", "next": ["tienda"]},
+    {"id": "tienda", "row": 2, "column": 3, "type": "shop", "next": ["descanso"]},
+    {"id": "descanso", "row": 3, "column": 3, "type": "rest", "next": []}
+  ]
+}

@@ -18,6 +18,8 @@ import mymod.monsters.Demon;
 import mymod.monsters.Demon2;
 import mymod.monsters.Demon3;
 import mymod.monsters.KioEnemy;
+import mymod.map.config.KioMapConfig;
+import mymod.map.config.KioMapBuilder;
 
 public class Kanto extends AbstractPokemonRegionDungeon {
 
@@ -38,11 +40,30 @@ public class Kanto extends AbstractPokemonRegionDungeon {
     }
 
     public Kanto(CustomDungeon cd, AbstractPlayer p, ArrayList<String> emptyList) {
-        super(cd, p, emptyList);
+        super(KioMapConfig.prepare(cd, p, false), p, emptyList);
     }
 
     public Kanto(CustomDungeon cd, AbstractPlayer p, SaveFile saveFile) {
-        super(cd, p, saveFile);
+        super(KioMapConfig.prepare(cd, p, true), p, saveFile);
+    }
+
+    @Override
+    protected void makeMap() {
+        logger.info("[Mapa Kio] Entrando en Kanto.makeMap: mapaKio=" + KioMapConfig.isKioRun());
+        if (!KioMapConfig.isKioRun()) {
+            super.makeMap();
+            return;
+        }
+        KioMapConfig config = KioMapConfig.loadForRun();
+        if (config == null || !config.enabled) {
+            logger.info("[Mapa Kio] Generacion original: configuracion ausente o desactivada.");
+            super.makeMap();
+            return;
+        }
+        map = KioMapBuilder.build(config);
+        firstRoomChosen = false;
+        fadeIn();
+        logger.info("[Mapa Kio] Mapa fijo generado: " + config.nodes.size() + " nodos y jefe.");
     }
 
     protected void initializeLevelSpecificChances() {
