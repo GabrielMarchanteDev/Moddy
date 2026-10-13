@@ -1,20 +1,29 @@
 package mymod.events;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.TextureLoader.TextureParameter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
-import com.megacrit.cardcrawl.unlock.UnlockTracker;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 import com.badlogic.gdx.graphics.Color;
 
 import java.util.ArrayList;
 
 public class BaymaxHistory extends AbstractGameEffect {
-    private final ArrayList<Texture> frames = new ArrayList<>();
+    private final String[] frames = {
+        "scenes/baymax/1.png", "scenes/baymax/2.png",
+        "scenes/baymax/3.png", "scenes/baymax/4.png",
+        "scenes/baymax/5.png", "scenes/baymax/6.png",
+        "scenes/baymax/7.png", "scenes/baymax/8.png"
+    };
+    // Gestor propio: estas texturas no se comparten con otras introducciones.
+    private final AssetManager assets = new AssetManager();
+    private boolean disposed;
     private final ArrayList<String> sounds = new ArrayList<>();
     private int currentIndex = 0;
     private float frameTimer = 0f;
@@ -23,36 +32,54 @@ public class BaymaxHistory extends AbstractGameEffect {
     private boolean shaking = false;
     private int lastSoundPlayedIndex = -1;
     public BaymaxHistory() {
-        // Carga tus imágenes, PUEDES AÑADIR MAS DE 3, VAN UNA DETRÁS DE OTRA
-   
+        // Solo la primera es necesaria inmediatamente; la segunda se prepara en update.
+        try {
+            queueFrame(0);
+            assets.finishLoadingAsset(frames[0]);
+            queueFrame(1);
+        } catch (RuntimeException e) {
+            dispose();
+            throw e;
+        }
         CardCrawlGame.music.playTempBgmInstantly("Satisfied.ogg", false); // false = no repetir
-        frames.add(ImageMaster.loadImage("scenes/baymax/1.png"));
-        frames.add(ImageMaster.loadImage("scenes/baymax/2.png"));
-        frames.add(ImageMaster.loadImage("scenes/baymax/3.png"));
-        frames.add(ImageMaster.loadImage("scenes/baymax/4.png"));
-        frames.add(ImageMaster.loadImage("scenes/baymax/5.png"));
-        frames.add(ImageMaster.loadImage("scenes/baymax/6.png"));
-        frames.add(ImageMaster.loadImage("scenes/baymax/7.png"));
-        frames.add(ImageMaster.loadImage("scenes/baymax/8.png"));
 
 
         // Sonido de fondo
         CardCrawlGame.sound.play("ATTACK_FIRE");
 
         // Duración total (por seguridad, aunque no se usa directamente)
-        this.duration = frames.size() * FRAME_DURATION;
+        this.duration = frames.length * FRAME_DURATION;
+    }
+
+    private void queueFrame(int index) {
+        if (index >= frames.length) return;
+        TextureParameter parameter = new TextureParameter();
+        parameter.minFilter = Texture.TextureFilter.Linear;
+        parameter.magFilter = Texture.TextureFilter.Linear;
+        assets.load(frames[index], Texture.class, parameter);
     }
 
     @Override
     public void update() {
+        if (disposed || isDone) return;
+        assets.update();
         frameTimer += Gdx.graphics.getDeltaTime();
         if (frameTimer >= FRAME_DURATION) {
+            // Si la lectura tarda, mantener la imagen actual en vez de mostrar negro.
+            if (currentIndex + 1 < frames.length && !assets.isLoaded(frames[currentIndex + 1])) {
+                frameTimer = FRAME_DURATION;
+                return;
+            }
             frameTimer = 0f;
             currentIndex++;
-            if (currentIndex >= frames.size()) {
+            if (currentIndex >= frames.length) {
                 isDone = true;
-                
+                dispose();
+                return;
             }
+            // Liberar antes de pedir la siguiente: nunca conservar mas de tres texturas.
+            if (currentIndex >= 2) assets.unload(frames[currentIndex - 2]);
+            queueFrame(currentIndex + 1);
         }
         // Emitir sonido si aún no se ha hecho para el frame actual
         if (currentIndex < sounds.size() && currentIndex != lastSoundPlayedIndex) {
@@ -71,10 +98,10 @@ public class BaymaxHistory extends AbstractGameEffect {
 
     @Override
     public void render(SpriteBatch sb) {
-        if (currentIndex >= frames.size()) return;
+        if (disposed || currentIndex >= frames.length) return;
 
-        Texture current = frames.get(currentIndex);
-        Texture previous = (currentIndex > 0) ? frames.get(currentIndex - 1) : null;
+        Texture current = assets.get(frames[currentIndex], Texture.class);
+        Texture previous = (currentIndex > 0) ? assets.get(frames[currentIndex - 1], Texture.class) : null;
 
         float localTime = frameTimer;
 
@@ -112,8 +139,9 @@ public class BaymaxHistory extends AbstractGameEffect {
 
     @Override
     public void dispose() {
-        for (Texture t : frames) {
-            t.dispose();
-        }
+        if (disposed) return;
+        disposed = true;
+        isDone = true;
+        assets.dispose();
     }
 }
