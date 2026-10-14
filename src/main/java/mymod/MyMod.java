@@ -87,12 +87,17 @@ import mymod.relics.palomitero.PalomiteroDeKio;
 @SpireInitializer
 public class MyMod implements EditCharactersSubscriber, EditCardsSubscriber, EditRelicsSubscriber,
 		EditStringsSubscriber, EditKeywordsSubscriber, AddAudioSubscriber, PostInitializeSubscriber,
-		StartGameSubscriber, PostBattleSubscriber, PostUpdateSubscriber {
+		StartGameSubscriber, PostBattleSubscriber, PostUpdateSubscriber, basemod.interfaces.PostRenderSubscriber {
 
 	public static final String modID = "mymod";
 
     @Override public void receivePostUpdate() {
         LunarAmbience.update();
+        mymod.memo.RebuildingMemory.update();
+    }
+
+    @Override public void receivePostRender(com.badlogic.gdx.graphics.g2d.SpriteBatch sb) {
+        mymod.memo.RebuildingMemory.renderHud(sb);
     }
 
 	public static String makeID(String idText) {
@@ -176,6 +181,7 @@ public class MyMod implements EditCharactersSubscriber, EditCardsSubscriber, Edi
 		//BaseMod.addEvent(BaymaxCheckEvent.ID, BaymaxCheckEvent.class);
 
 		ConsoleCommand.addCommand("addgold", AddGoldCommand.class);
+		ConsoleCommand.addCommand("recuerdo", mymod.commands.MemoryReconstructionCommand.class);
 
 		// ✅ ACTO 1 – Reemplazar dungeons base por Kanto
 		ArrayList<String> act1List = CustomDungeon.actnumbers.computeIfAbsent(1, k -> new ArrayList<>());
@@ -378,7 +384,7 @@ public class MyMod implements EditCharactersSubscriber, EditCardsSubscriber, Edi
 
 	@Override
 	public void receivePostBattle(AbstractRoom arg0) {
-		// TODO Auto-generated method stub
+		// La reconstruccion progresa al generar Bloqueo, no al terminar combate.
 
 	}
 

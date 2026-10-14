@@ -1,0 +1,6 @@
+# Salon del templo
+
+Generacion con image_gen integrado. Recurso: src/main/resources/memo/temple-hall.png. Habitacion de prueba, no version definitiva del templo.
+
+## Prompt
+A wide 16:9 full-screen background for a point-and-click narrative game. Interior of a quiet woodland stone temple, intimate and welcoming, painterly storybook game art, muted slate-blue night, warm cream and amber lamplight. Clear readable composition with THREE distinct interactive motifs spatially separated: LEFT third at x22% y57% a wooden medical research desk with a small pale-blue glowing rectangular monitor, papers and a white robot-like medical storage box, NO CHARACTER; CENTER upper-mid at x50% y47% an open stone arch doorway leading into a moonlit woodland garden with a round mossy stone visible; RIGHT third at x80% y52% a closed weathered wooden door with a tiny brass lock and a low side table holding a bowl of popcorn. Stone floor mostly empty at bottom 25%, no foreground occlusion. Temple vegetation and hanging cloth, solemn gentle magical memory archive atmosphere. NO text, letters, runes, numbers, UI, people or faces. Distinct silhouettes for desk, open arch and closed door, no extra doors. The three motifs each roughly 20% frame width for clear clickable areas. Full bleed image.
