@@ -21,7 +21,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.screens.CharSelectInfo;
 import com.megacrit.cardcrawl.unlock.UnlockTracker;
 
-import basemod.abstracts.CustomEnergyOrb;
+
 import basemod.abstracts.CustomPlayer;
 import mymod.MyMod;
 import mymod.cards.kio.ComerPalomitas;
@@ -30,6 +30,7 @@ import mymod.cards.kio.KioAttack;
 import mymod.cards.kio.KioCardColor;
 import mymod.cards.kio.KioDefend;
 import mymod.relics.palomitero.PalomiteroDeKio;
+import mymod.characters.ui.PopcornEnergyOrb;
 
 public class Kio extends CustomPlayer {
 
@@ -41,16 +42,6 @@ public class Kio extends CustomPlayer {
     public static final String MY_CHARACTER_SKELETON_ATLAS = "images/kio/char/spine/KioAnimated.atlas"; // spine animation atlas
     public static final String MY_CHARACTER_SKELETON_JSON = "images/kio/char/spine/KioAnimated.json"; // spine animation json
 
-	private static final String[] ORB_TEXTURES = new String[] { "images/kio/ui/topPanel/layer1.png",
-			"images/kio/ui/topPanel/layer2.png", "images/kio/ui/topPanel/layer3.png",
-			"images/kio/ui/topPanel/layer4.png", "images/kio/ui/topPanel/layer5.png",
-			"images/kio/ui/topPanel/layer6.png", "images/kio/ui/topPanel/layer1.png",
-			"images/kio/ui/topPanel/energyRedVFX.png", // orbVFXLayer1
-			"images/kio/ui/topPanel/energyPurpleVFX.png" // orbVFXLayer2
-	};
-
-	private static final String ORB_VFX = "images/ui/topPanel/energyRedVFX.png";
-
 	private static final int ENERGY_PER_TURN = 3;
 	private static final int STARTING_HP = 75;
 	private static final int MAX_HP = 75;
@@ -60,8 +51,8 @@ public class Kio extends CustomPlayer {
 	private boolean enModo85 = false;
 	
     public Kio(String name) {
-        // ✅ Usamos el orb por defecto de Ironclad (EnergyOrbRed)
-        super(name, MyPlayerKioClassEnum.KIO_CLASS, new CustomEnergyOrb(ORB_TEXTURES, ORB_VFX, null),null,null );
+        // Indicador de energia con aro animado y palomitas fijas.
+        super(name, MyPlayerKioClassEnum.KIO_CLASS, new PopcornEnergyOrb(),null,null );
 
         this.dialogX = this.drawX + 0.0F * Settings.scale;
         this.dialogY = this.drawY + 220.0F * Settings.scale;

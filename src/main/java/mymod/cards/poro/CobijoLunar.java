@@ -37,7 +37,7 @@ public class CobijoLunar extends CustomCard {
     }
 
     public CobijoLunar() {
-        super(ID, TEXT.NAME, "images/cards/defend.png", 1, TEXT.DESCRIPTION,
+        super(ID, TEXT.NAME, "images/cards/cobijoLunar.png", 1, TEXT.DESCRIPTION,
                 CardType.SKILL, PoroCardColor.PORO_COLOR, CardRarity.UNCOMMON, CardTarget.SELF);
         baseBlock = block = 6;
         magicNumber = baseMagicNumber = 6;
@@ -56,7 +56,7 @@ public class CobijoLunar extends CustomCard {
             lunarActive = full;
             name = (full ? TEXT.EXTENDED_DESCRIPTION[0] : TEXT.NAME) + (upgraded ? "+" : "");
             rawDescription = full ? TEXT.EXTENDED_DESCRIPTION[1] : TEXT.DESCRIPTION;
-            loadCardImage(full ? "images/cards/cobijoLunarLlena.png" : "images/cards/defend.png");
+            loadCardImage(full ? "images/cards/cobijoLunarLlena.png" : "images/cards/cobijoLunar.png");
             if (full && inHand()) {
                 transformation = TRANSFORM_DURATION;
                 startLunarFlash();

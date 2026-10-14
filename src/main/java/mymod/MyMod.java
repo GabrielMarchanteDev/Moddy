@@ -36,6 +36,8 @@ import basemod.interfaces.EditKeywordsSubscriber;
 import basemod.interfaces.EditRelicsSubscriber;
 import basemod.interfaces.EditStringsSubscriber;
 import basemod.interfaces.PostBattleSubscriber;
+import basemod.interfaces.PostUpdateSubscriber;
+import mymod.characters.ui.LunarAmbience;
 import basemod.interfaces.PostInitializeSubscriber;
 import basemod.interfaces.StartGameSubscriber;
 import mymod.cards.kio.AhoraVengo;
@@ -85,9 +87,13 @@ import mymod.relics.palomitero.PalomiteroDeKio;
 @SpireInitializer
 public class MyMod implements EditCharactersSubscriber, EditCardsSubscriber, EditRelicsSubscriber,
 		EditStringsSubscriber, EditKeywordsSubscriber, AddAudioSubscriber, PostInitializeSubscriber,
-		StartGameSubscriber, PostBattleSubscriber {
+		StartGameSubscriber, PostBattleSubscriber, PostUpdateSubscriber {
 
 	public static final String modID = "mymod";
+
+    @Override public void receivePostUpdate() {
+        LunarAmbience.update();
+    }
 
 	public static String makeID(String idText) {
 		return modID + ":" + idText;

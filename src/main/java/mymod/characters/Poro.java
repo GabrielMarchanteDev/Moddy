@@ -19,7 +19,7 @@ import com.megacrit.cardcrawl.localization.CharacterStrings;
 import com.megacrit.cardcrawl.screens.CharSelectInfo;
 import com.megacrit.cardcrawl.unlock.UnlockTracker;
 
-import basemod.abstracts.CustomEnergyOrb;
+
 import basemod.abstracts.CustomPlayer;
 import mymod.MyMod;
 import mymod.cards.kio.KioAttack;
@@ -32,6 +32,7 @@ import mymod.cards.poro.PoroDefend;
 import mymod.relics.Kiobag;
 import mymod.characters.ui.LunarPhase;
 import mymod.characters.ui.PoroMoon;
+import mymod.characters.ui.LunarEnergyOrb;
 
 public class Poro extends CustomPlayer {
 
@@ -39,7 +40,11 @@ public class Poro extends CustomPlayer {
     private final PoroMoon moon = new PoroMoon();
 
     public LunarPhase getLunarPhase() { return moon.getPhase(); }
-    public void advanceLunarPhase() { moon.advance(); }
+    public void advanceLunarPhase() {
+        moon.advance();
+        // Fuerza usa las tres variantes nativas del sonido de bonificacion.
+        CardCrawlGame.sound.play("BUFF_" + MathUtils.random(1, 3));
+    }
 
     @Override public void preBattlePrep() {
         moon.reset();
@@ -67,17 +72,6 @@ public class Poro extends CustomPlayer {
     public static final String MY_CHARACTER_SKELETON_ATLAS = "images/poro/char/spine/Poroanimated.atlas"; // spine animation atlas
     public static final String MY_CHARACTER_SKELETON_JSON = "images/poro/char/spine/Poroanimated.json"; // spine animation json
 
-	private static final String[] ORB_TEXTURES = new String[] { "images/kio/ui/topPanel/layer1.png",
-			"images/kio/ui/topPanel/layer2.png", "images/kio/ui/topPanel/layer3.png",
-			"images/kio/ui/topPanel/layer4.png", "images/kio/ui/topPanel/layer5.png",
-            // CustomEnergyOrb: cuatro capas activas, base y cuatro capas sin energia.
-            // Las hojas VFX no son capas: a energia 0 se dibujaban como rectangulos.
-            "images/kio/ui/topPanel/layer1.png", "images/kio/ui/topPanel/layer2.png",
-            "images/kio/ui/topPanel/layer3.png", "images/kio/ui/topPanel/layer4.png"
-	};
-
-	private static final String ORB_VFX = "images/ui/topPanel/energyRedVFX.png";
-
 	private static final int ENERGY_PER_TURN = 4;
 	private static final int STARTING_HP = 80;
 	private static final int MAX_HP = 80;
@@ -87,8 +81,8 @@ public class Poro extends CustomPlayer {
 	private static final float VISUAL_OFFSET_Y = 50f * Settings.scale;
 	
     public Poro(String name) {
-        // ✅ Usamos el orb por defecto de Ironclad (EnergyOrbRed)
-        super(name, MyPlayerPoroClassEnum.PORO_CLASS, new CustomEnergyOrb(ORB_TEXTURES, ORB_VFX, null),null,null );
+        // Indicador de energia lunar con nucleo fijo y capas animadas.
+        super(name, MyPlayerPoroClassEnum.PORO_CLASS, new LunarEnergyOrb(),null,null );
 
         this.dialogX = this.drawX + 0.0F * Settings.scale;
         this.dialogY = this.drawY + 220.0F * Settings.scale;
@@ -200,7 +194,7 @@ public class Poro extends CustomPlayer {
 
 	@Override
 	public BitmapFont getEnergyNumFont() {
-		return FontHelper.energyNumFontRed;
+		return FontHelper.energyNumFontBlue;
 	}
 
 	@Override

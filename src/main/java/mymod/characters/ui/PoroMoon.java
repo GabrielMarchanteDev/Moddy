@@ -68,7 +68,9 @@ public final class PoroMoon {
     private Texture glowTexture() {
         if (glow == null) {
             Pixmap pixmap = new Pixmap(128, 128, Pixmap.Format.RGBA8888);
-            pixmap.setBlending(Pixmap.Blending.None);
+            // libGDX 1.9.5 comparte este estado entre todos los Pixmap, incluidas las fuentes.
+            Pixmap.Blending previousBlending = Pixmap.getBlending();
+            Pixmap.setBlending(Pixmap.Blending.None);
             try {
                 for (int y = 0; y < 128; y++) {
                     for (int x = 0; x < 128; x++) {
@@ -85,6 +87,7 @@ public final class PoroMoon {
                 glow = new Texture(pixmap);
                 glow.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
             } finally {
+                Pixmap.setBlending(previousBlending);
                 pixmap.dispose();
             }
         }

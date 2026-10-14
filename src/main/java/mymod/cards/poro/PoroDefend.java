@@ -25,7 +25,7 @@ public class PoroDefend extends CustomCard {
     private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
     public static final String NAME = cardStrings.NAME;
     public static final String DESCRIPTION = cardStrings.DESCRIPTION;
-    public static final String IMG_PATH = "images/cards/defend.png";
+    public static final String IMG_PATH = "images/poro/cards/defend.png";
 
     private static final CardType TYPE = CardType.SKILL;
     private static final CardColor COLOR = PoroCardColor.PORO_COLOR;
