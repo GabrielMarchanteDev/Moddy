@@ -9,6 +9,7 @@ public final class MemoProgress {
     private static SpireConfig config;
     private static boolean loaded;
     private static boolean baymaxSeen;
+    private static boolean kioPrivateUnlocked;
 
     private MemoProgress() { }
 
@@ -18,6 +19,7 @@ public final class MemoProgress {
             try {
                 config = new SpireConfig("mymod", "memo-progress");
                 baymaxSeen = config.has("baymaxSeen") && config.getBool("baymaxSeen");
+                kioPrivateUnlocked = config.has("kioPrivateUnlocked") && config.getBool("kioPrivateUnlocked");
             } catch (Exception e) {
                 MyMod.logger.error("[M.E.M.O.] No se pudo leer el progreso", e);
             }
@@ -37,6 +39,23 @@ public final class MemoProgress {
             config.save();
         } catch (Exception e) {
             MyMod.logger.error("[M.E.M.O.] Progreso disponible en esta sesion; no se pudo guardar", e);
+        }
+    }
+
+    public static boolean hasKioPrivate() {
+        hasBaymax();
+        return kioPrivateUnlocked;
+    }
+
+    public static void unlockKioPrivate() {
+        hasBaymax();
+        kioPrivateUnlocked = true;
+        try {
+            if (config == null) config = new SpireConfig("mymod", "memo-progress");
+            config.setBool("kioPrivateUnlocked", true);
+            config.save();
+        } catch (Exception e) {
+            MyMod.logger.error("[M.E.M.O.] No se pudo guardar el acceso privado", e);
         }
     }
 }

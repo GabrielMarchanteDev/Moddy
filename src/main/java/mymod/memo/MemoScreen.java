@@ -22,6 +22,8 @@ public final class MemoScreen {
     private final Hitbox entry = new Hitbox(240F * Settings.scale, 64F * Settings.scale);
     private final Hitbox replay = new Hitbox(300F * Settings.scale, 64F * Settings.scale);
     private final Hitbox back = new Hitbox(240F * Settings.scale, 64F * Settings.scale);
+    private final Hitbox privateReplay = new Hitbox(300F * Settings.scale, 64F * Settings.scale);
+    private final KioPrivateMemory privateMemory = new KioPrivateMemory();
     private final Color accent = new Color(0.35F, 0.9F, 0.85F, 1F);
     private boolean open;
     private Texture thumbnail;
@@ -49,6 +51,10 @@ public final class MemoScreen {
             }
             return false;
         }
+        if (privateMemory.isOpen()) {
+            privateMemory.update();
+            return true;
+        }
         back.move(Settings.WIDTH / 2F, 110F * Settings.scale);
         back.update();
         if (InputHelper.pressedEscape || clicked(back)) {
@@ -69,9 +75,12 @@ public final class MemoScreen {
         }
         replay.move(Settings.WIDTH / 2F - 230F * Settings.scale, Settings.HEIGHT / 2F - 155F * Settings.scale);
         replay.update();
-        if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) keyboardFocus = 1 - keyboardFocus;
+        privateReplay.move(Settings.WIDTH / 2F + 230F * Settings.scale, Settings.HEIGHT / 2F - 155F * Settings.scale);
+        privateReplay.update();
+        if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) keyboardFocus = (keyboardFocus + 1) % 3;
         boolean enter = Gdx.input.isKeyJustPressed(Input.Keys.ENTER);
-        if (enter && keyboardFocus == 1) close();
+        if (clicked(privateReplay) || (enter && keyboardFocus == 1)) privateMemory.open();
+        else if (enter && keyboardFocus == 2) close();
         else if (MemoProgress.hasBaymax() && (clicked(replay) || (enter && keyboardFocus == 0))) startPlayback();
         return true;
     }
@@ -139,6 +148,11 @@ public final class MemoScreen {
             return;
         }
         rectangle(sb, 0, 0, Settings.WIDTH, Settings.HEIGHT, new Color(0.025F, 0.045F, 0.07F, 1F));
+        if (privateMemory.isOpen()) {
+            privateMemory.render(sb);
+            sb.setColor(previous);
+            return;
+        }
         if (playback != null) {
             playback.render(sb);
             button(sb, back, "Volver al archivo", true, false);
@@ -151,7 +165,7 @@ public final class MemoScreen {
         text(sb, FontHelper.tipBodyFont, "Archivo de recuerdos", cx, cy + 250F * Settings.scale, Color.LIGHT_GRAY);
         boolean seen = MemoProgress.hasBaymax();
         card(sb, cx - 230F * Settings.scale, cy, seen);
-        card(sb, cx + 230F * Settings.scale, cy, false);
+        card(sb, cx + 230F * Settings.scale, cy, MemoProgress.hasKioPrivate());
         if (thumbnail != null) {
             sb.setColor(Color.WHITE);
             sb.draw(thumbnail, cx - 425F * Settings.scale, cy - 25F * Settings.scale,
@@ -166,16 +180,15 @@ public final class MemoScreen {
                     cx - 230F * Settings.scale, cy + 30F * Settings.scale, Color.LIGHT_GRAY);
         }
         button(sb, replay, seen ? "Reproducir recuerdo" : "Bloqueado", seen, keyboardFocus == 0);
-        text(sb, FontHelper.buttonLabelFont, "Archivo 02", cx + 230F * Settings.scale,
+        text(sb, FontHelper.buttonLabelFont, "Kio · Privado", cx + 230F * Settings.scale,
                 cy + 215F * Settings.scale, Color.LIGHT_GRAY);
-        text(sb, FontHelper.tipBodyFont, "Sin contenido disponible", cx + 230F * Settings.scale,
+        text(sb, FontHelper.tipBodyFont, MemoProgress.hasKioPrivate() ? "Fragmento recuperado" : "Se necesita una pista externa", cx + 230F * Settings.scale,
                 cy + 50F * Settings.scale, Color.GRAY);
-        text(sb, FontHelper.tipBodyFont, "Bloqueado", cx + 230F * Settings.scale,
-                cy - 155F * Settings.scale, Color.GRAY);
+        button(sb, privateReplay, MemoProgress.hasKioPrivate() ? "Reproducir recuerdo" : "Introducir clave", true, keyboardFocus == 1);
         text(sb, FontHelper.tipBodyFont, seen ? "Recuerdo disponible · puedes volver a verlo" : "0 recuerdos disponibles",
                 cx, cy - 255F * Settings.scale, Color.LIGHT_GRAY);
         if (message != null) text(sb, FontHelper.tipBodyFont, message, cx, cy - 295F * Settings.scale, Settings.GOLD_COLOR);
-        button(sb, back, "Volver al menú", true, keyboardFocus == 1);
+        button(sb, back, "Volver al menú", true, keyboardFocus == 2);
         text(sb, FontHelper.tipBodyFont, "Tab: cambiar botón · Enter: seleccionar · Esc: volver", cx,
                 45F * Settings.scale, Color.GRAY);
         sb.setColor(previous);
